@@ -1,4 +1,4 @@
-# Setlist to Spotify Playlist Creator
+# Afterglow
 
 A simple TypeScript CLI tool to scrape a setlist from setlist.fm and create a corresponding Spotify playlist.
 
@@ -38,3 +38,8 @@ The program will:
 2.  Open your browser to authorize with Spotify.
 3.  Search for each song on Spotify.
 4.  Create a new playlist in your account and add the found tracks.
+
+## Related
+
+- [setlist.fm to Spotify](https://setlistfm.selbi.club/)
+- [Setify](https://setify.co/)
