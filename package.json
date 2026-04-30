@@ -1,0 +1,28 @@
+{
+  "name": "afterglow",
+  "version": "1.0.0",
+  "description": "Create Spotify playlist from setlist.fm",
+  "author": "Joe Mou",
+  "license": "MIT",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:online": "TEST_ONLINE=true vitest run",
+    "start": "node src/index.ts",
+    "format": "prettier --write ."
+  },
+  "packageManager": "pnpm@10.28.0",
+  "dependencies": {
+    "@spotify/web-api-ts-sdk": "^1.2.0",
+    "cheerio": "^1.2.0",
+    "commander": "^14.0.3",
+    "open": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  }
+}
