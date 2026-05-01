@@ -7,18 +7,32 @@ export interface SetlistData {
   songs: string[];
 }
 
+export class ScrapeError extends Error {
+  readonly code: number;
+  readonly html: string;
+
+  constructor(message: string, code: number, html: string) {
+    super(message);
+    this.name = "ScrapeError";
+    this.code = code;
+    this.html = html;
+  }
+}
+
 export async function scrapeSetlist(url: string): Promise<SetlistData> {
   const response = await fetch(url, {
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; SpotifyPlaylistCreator/1.0)",
     },
   });
+  const html = await response.text();
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch setlist: ${response.statusText}`);
+    throw new ScrapeError(`Failed to fetch setlist: ${response.statusText}`, response.status, html);
+  } else if (response.status === 202 && html === "") {
+    throw new ScrapeError("Stub response detected", response.status, html);
   }
 
-  const html = await response.text();
   const $ = cheerio.load(html);
 
   const artist = $(".setlistHeadline h1 strong a").first().text().trim();
@@ -53,6 +67,14 @@ export async function scrapeSetlist(url: string): Promise<SetlistData> {
       songs.push(songName);
     }
   });
+
+  if (!artist || songs.length === 0) {
+    throw new ScrapeError(
+      `Failed to parse setlist: artist="${artist}" songs=${songs.length}`,
+      response.status,
+      html,
+    );
+  }
 
   return {
     artist,
